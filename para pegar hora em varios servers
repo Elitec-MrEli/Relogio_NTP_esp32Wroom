@@ -1,0 +1,63 @@
+#include <WiFi.h>
+#include "time.h"
+
+const char* ssid       = "elitec_testes";
+const char* password   = "12345678";
+
+String imprima_hora;
+int cont_ntp = 0;
+int cont_ntp_max = 7;
+const char* ntpServer[] = {"pool.ntp.org_off", "a.ntp.br_off", "b.ntp.br", "c.ntp.br", "b.st1.ntp.br", "c.st1.ntp.br", "200.20.186.76", "189.45.192.3"}; //200.20 é do ntp br//o 189.45 é da unifique
+const long  gmtOffset_sec = -10800;
+const int   daylightOffset_sec = 0;
+
+void setup()
+{
+  Serial.begin(9600);
+  delay(10);
+  //connect to WiFi
+  Serial.printf("Connecting to %s ", ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+  }
+  Serial.println(" CONNECTED");
+  
+  //init and get the time
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer[cont_ntp]);
+  printLocalTime();
+
+  //disconnect WiFi as it's no longer needed
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_OFF);
+}
+
+void loop()
+{
+  delay(5000);
+  printLocalTime();
+  Serial.print(imprima_hora);
+  Serial.println("\t Obtido de: "+String(ntpServer[cont_ntp])+" server numero: "+String(cont_ntp+1));
+}
+
+void printLocalTime(){
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    if (cont_ntp < cont_ntp_max){
+        cont_ntp++;
+    }else{
+        cont_ntp = 0;
+    }
+    Serial.println("Falha em Obter a hora tentarei proximo server... " +String(cont_ntp+1));    
+    troca_server_ntp(cont_ntp);
+    return;
+  }
+  delay(10);
+  imprima_hora = (&timeinfo, "%A, %B %d %Y %H:%M:%S");    
+  return;
+}
+
+int troca_server_ntp(int cont_ntp_){
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer[cont_ntp_]);
+}
