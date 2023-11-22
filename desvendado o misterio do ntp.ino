@@ -18,20 +18,15 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("\nConectado!\n");
-
-  ntp.begin();
-
-  //GMT em segundos
-  // +1 = 3600
-  // +8 = 28800
-  // -1 = -3600
-  // -3 = -10800 (BRASIL)
+  
   ntp.setTimeOffset(-10800);
+  ntp.begin();  
+  
 }
 
 void loop() {
     Serial.print("ONa: ");
-    Serial.println(millis());
+    Serial.print(millis());
 
 
     if ((millis() >= 30000)&&(millis() >= 32000)){ ntp.setPoolServerName("pool.ntp.org"); }
@@ -40,28 +35,35 @@ void loop() {
        
   if (ntp.forceUpdate()) {   
 
-    Serial.print("HORARIO: ");
+    Serial.print(" HORARIO: ");
     Serial.print(ntp.getFormattedTime());
 
-    Serial.print(" HORA: ");
+    Serial.print(" H: ");
     Serial.print(ntp.getHours());
 
-    Serial.print(" MINUTOS: ");
+    Serial.print(" M: ");
     Serial.print(ntp.getMinutes());
 
-    Serial.print(" SEGUNDOS: ");
+    Serial.print(" S: ");
     Serial.print(ntp.getSeconds());
 
-    Serial.print(" DIA DA SEMANA (0=domingo): ");
+    Serial.print(" D.SEM(0=domingo): ");
     Serial.print(ntp.getDay());
 
-    Serial.print(" EPOCH TIME (Segundos desde 01/01/1970): ");
+    Serial.print("t.stmp(desde.01/01/1970): ");
     Serial.print(ntp.getEpochTime());
 
     Serial.println();
 
   } else {
-    Serial.println("!Erro ao atualizar NTP!");
+    Serial.print(" !Erro ao atualizar NTP!");
   }
+
+   if (ntp.update()) {  
+     Serial.println(" update true ");
+   }else{
+     Serial.println(" update false ");
+   }
+
   delay(1000);
 }
