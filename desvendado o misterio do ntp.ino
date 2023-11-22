@@ -30,7 +30,7 @@ void loop() {
 
 
     if ((millis() >= 30000)&&(millis() >= 32000)){ ntp.setPoolServerName("pool.ntp.org"); }
-       
+    if ((millis() >= 50000)&&(millis() >= 52000)){ ntp.setPoolServerName("pool.ntp.org_off"); }   
 
        
   if (ntp.forceUpdate()) {   
@@ -50,19 +50,21 @@ void loop() {
     Serial.print(" D.SEM(0=domingo): ");
     Serial.print(ntp.getDay());
 
-    Serial.print("t.stmp(desde.01/01/1970): ");
+    Serial.print(" t.stmp(desde.01/01/1970): ");
     Serial.print(ntp.getEpochTime());
 
     Serial.println();
 
   } else {
-    Serial.print(" !Erro ao atualizar NTP!");
+    Serial.print(" !Erro ao atualizar NTP! ");
+
+    Serial.println();
   }
 
    if (ntp.update()) {  
-     Serial.println(" update true ");
+     Serial.println("ntp.update(): true ");
    }else{
-     Serial.println(" update false ");
+     Serial.println("ntp.update(): false ");
    }
 
   delay(1000);
