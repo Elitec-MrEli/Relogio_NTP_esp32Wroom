@@ -30,7 +30,8 @@ void loop() {
 
 
     if ((millis() >= 30000)&&(millis() >= 32000)){ ntp.setPoolServerName("pool.ntp.org"); }
-    if ((millis() >= 50000)&&(millis() >= 52000)){ ntp.setPoolServerName("pool.ntp.org_off"); }   
+    if ((millis() >= 50000)&&(millis() >= 52000)){ ntp.setPoolServerName("pool.ntp.org_off"); }  
+    if ((millis() >= 70000)&&(millis() >= 72000)){ ntp.setPoolServerName("gps.ntp.br"); }   
 
        
   if (ntp.forceUpdate()) {   
@@ -66,6 +67,18 @@ void loop() {
    }else{
      Serial.println("ntp.update(): false ");
    }
+
+   struct tm timeinfo;
+   getLocalTime(&timeinfo);
+   int _hour  = timeinfo.tm_hour;
+   int _min   = timeinfo.tm_min;
+   int _sec   = timeinfo.tm_sec;
+   int _dia   = timeinfo.tm_mday;
+   int _mes   = timeinfo.tm_mon+1;
+   int _ano   = timeinfo.tm_year+1900;
+   int _isdst = timeinfo.tm_isdst;
+   Serial.println("H: "+String(_hour)+":"+String(_min)+":"+String(_sec));
+
 
   delay(1000);
 }
