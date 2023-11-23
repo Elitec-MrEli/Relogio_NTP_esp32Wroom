@@ -44,7 +44,22 @@ void loop() {
     if ((millis() >= 60000)&&(millis() <=   62000)){ ntp.setPoolServerName("pool.ntp.org"); }
     if ((millis() >= 70000)&&(millis() <=   72000)){ ntp.setPoolServerName("pool.ntp.org_OFF"); }
     if ((millis() >= 80000)&&(millis() <=   82000)){ setTime(11, 11, 11, 10, 03, 2000); }
-    if ((millis() >= 100000)&&(millis() <= 102000)){ ntp.setPoolServerName("189.45.192.3"); }
+    if ((millis() >= 100000)&&(millis() <= 110000)){ ntp.setPoolServerName("189.45.192.3"); }
+    
+    if ((millis() >= 120000)&&(millis() <= 122000)){
+      //disconnect WiFi as it's no longer needed
+      WiFi.disconnect(true);
+      WiFi.mode(WIFI_OFF);
+      Serial.println("WIFI DESLIGADO!");
+    }
+    
+    if ((millis() >= 1400000)&&(millis() <=  142000)){ ntp.setPoolServerName("200.20.186.76_off"); }  
+    if ((millis() >= 1600000)&&(millis() <=  162000)){ setTime(23, 15, 0, 18, 11, 2023); }
+    if ((millis() >= 1800000)&&(millis() <=  182000)){ ntp.setPoolServerName("pool.ntp.org"); }
+    if ((millis() >= 2000000)&&(millis() <=  202000)){ ntp.setPoolServerName("pool.ntp.org_OFF"); }
+    if ((millis() >= 2200000)&&(millis() <=  222000)){ setTime(11, 11, 11, 10, 03, 2000); }
+    if ((millis() >= 2400000)&&(millis() <=  242000)){ ntp.setPoolServerName("189.45.192.3"); }
+
 
   if (ntp.forceUpdate()) { 
     delay(10);
