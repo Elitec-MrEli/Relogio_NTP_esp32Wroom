@@ -7,6 +7,7 @@
 const char ssid[] = "elitec_testes";
 const char password[] = "12345678";
 
+boolean ajusta_hora_pelo_ntp = true;
 const char* ntpServer[] = {"pool.ntp.org_off", "200.20.186.76", "189.45.192.3"}; //200.20 é do ntp br//o 189.45 é da unifique
 WiFiUDP ntpUDP;
 NTPClient ntp(ntpUDP);
@@ -29,29 +30,29 @@ void setup() {
   }
   Serial.println("\nConectado!\n");
 
-
-  //boolean ajusta_hora_pelo_ntp = true;
+  
   setTime(23, 15, 0, 18, 11, 2023); // hora, mim, seg, dia, mes, ano
   ntp.setTimeOffset(-10800);
   ntp.begin();  
   
 }
 
-void loop() {
-    //Serial.print("ONa: ");
-    //Serial.print(millis());
-    //if ((millis() >= 30000)&&(millis() >= 31000)){ ntp.setPoolServerName("pool.ntp.org"); }
-    if ((millis() >= 20000)&&(millis() <= 21000)){ ntp.setPoolServerName("200.20.186.76_off"); }  
-    if ((millis() >= 90000)&&(millis() <= 91000)){ ntp.setPoolServerName("pool.ntp.org"); }   
-    //if ((millis() >= 30000)&&(millis() >= 31000)){ setTime(23, 15, 0, 10, 11, 2023); }
-    //if ((millis() >= 50000)&&(millis() >= 51000)){ setTime(01, 01, 59, 28, 02, 2019); }  
-    if ((millis() >= 60000)&&(millis() <= 61000)){ setTime(01, 10, 20, 01, 02, 1980); }   
-   
+void loop() {    
+    
+    if ((millis() >= 20000)&&(millis() <=   22000)){ ntp.setPoolServerName("200.20.186.76_off"); }  
+    if ((millis() >= 40000)&&(millis() <=   42000)){ setTime(23, 15, 0, 18, 11, 2023); }
+    if ((millis() >= 60000)&&(millis() <=   62000)){ ntp.setPoolServerName("pool.ntp.org"); }
+    if ((millis() >= 70000)&&(millis() <=   72000)){ ntp.setPoolServerName("pool.ntp.org_OFF"); }
+    if ((millis() >= 80000)&&(millis() <=   82000)){ setTime(11, 11, 11, 10, 03, 2000); }
+    if ((millis() >= 100000)&&(millis() <= 102000)){ ntp.setPoolServerName("189.45.192.3"); }
+
   if (ntp.forceUpdate()) { 
-    delay(10);      
+    delay(10);
+    ajusta_hora_pelo_ntp = true;      
     Serial.println("NTP! OK");
   } else {
     delay(10);
+    ajusta_hora_pelo_ntp = false;
     Serial.print("!Erro ao atualizar NTP!");
     Serial.println();
   }             
@@ -71,7 +72,7 @@ void loop() {
           Serial.print("/");
           Serial.print(year());           
           Serial.print(" NOW: "+String(now()));
-          Serial.println(" MILLIS: "+String(millis()/1000));   
+          Serial.println(" MILLIS: "+String(millis()));   
 
                 printf("NTP: %02d:%02d:%02d %02d/%02d/%4d\n", hour(ntp.getEpochTime()), minute(ntp.getEpochTime()), second(ntp.getEpochTime()), day(ntp.getEpochTime()), month(ntp.getEpochTime()), year(ntp.getEpochTime()));                
 
@@ -80,7 +81,7 @@ void loop() {
 }
 
 void verifica_sincronia_ESP_x_NTP(int ano_, int mes_ , int dia_, int hour_, int min_, int sec_){
-  //if (ajusta_hora_pelo_ntp == true){
+  if (ajusta_hora_pelo_ntp == true){
    if (year()!=ano_){
      Serial.println("ano diferente, ajustando...");     
      setTime(hour_, min_, sec_, dia_, mes_, ano_); // hora, mim, seg, dia, mes, ano
@@ -106,7 +107,9 @@ void verifica_sincronia_ESP_x_NTP(int ano_, int mes_ , int dia_, int hour_, int 
      setTime(hour_, min_, sec_, dia_, mes_, ano_); // hora, mim, seg, dia, mes, ano
      delay(10);
    }
-  //}
+  }else{
+    Serial.println("Ntp nao esta disponivel para fazer o ajuste correto!");
+  }
 }
 
 
