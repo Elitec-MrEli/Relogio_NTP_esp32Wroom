@@ -10,13 +10,14 @@ const char password[] = "12345678";
 WiFiUDP ntpUDP;
 NTPClient ntp(ntpUDP);
 
+/*
 int _hour=23;
 int _min=15;
 int _sec=0;
 int _dia=18;
 int _mes=11;
 int _ano=2023;
-
+*/
 
 void setup() {
   Serial.begin(115200);
@@ -46,9 +47,9 @@ void loop() {
     //if ((millis() >= 50000)&&(millis() >= 51000)){ ntp.setPoolServerName("pool.ntp.org_off"); }  
     //if ((millis() >= 70000)&&(millis() >= 71000)){ ntp.setPoolServerName("gps.ntp.br"); }   
 
-    //if ((millis() >= 30000)&&(millis() >= 31000)){ setTime(23, 15, 0, 10, 11, 2023); }
-    //if ((millis() >= 50000)&&(millis() >= 51000)){ setTime(01, 01, 59, 28, 02, 2019); }  
-    //if ((millis() >= 70000)&&(millis() >= 71000)){ setTime(01, 10, 20, 01, 02, 1980); }   
+    if ((millis() >= 30000)&&(millis() >= 31000)){ setTime(23, 15, 0, 10, 11, 2023); }
+    if ((millis() >= 50000)&&(millis() >= 51000)){ setTime(01, 01, 59, 28, 02, 2019); }  
+    if ((millis() >= 70000)&&(millis() >= 71000)){ setTime(01, 10, 20, 01, 02, 1980); }   
 
        
   if (ntp.forceUpdate()) {   
