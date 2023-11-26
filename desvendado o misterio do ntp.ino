@@ -22,6 +22,7 @@ int _ano=2023;
 void setup() {
   Serial.begin(115200);
 
+
   WiFi.begin(ssid, password);
   Serial.print("Conectando no WiFi..");
   while (WiFi.status() != WL_CONNECTED) {
@@ -29,6 +30,10 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("\nConectado!\n");
+
+      WiFi.disconnect(true);
+      WiFi.mode(WIFI_OFF);
+      Serial.println("WIFI DESLIGADO!");
 
   
   setTime(23, 15, 0, 18, 11, 2023); // hora, mim, seg, dia, mes, ano
@@ -45,14 +50,15 @@ void loop() {
     if ((millis() >= 70000)&&(millis() <=   74000)){ ntp.setPoolServerName("pool.ntp.org_OFF"); }
     if ((millis() >= 80000)&&(millis() <=   84000)){ setTime(11, 11, 11, 10, 03, 2000); }
     if ((millis() >= 100000)&&(millis() <= 104000)){ ntp.setPoolServerName("189.45.192.3"); }
-    
+
+/*
     if ((millis() >= 120000)&&(millis() <= 124000)){
       //disconnect WiFi as it's no longer needed
       WiFi.disconnect(true);
       WiFi.mode(WIFI_OFF);
       Serial.println("WIFI DESLIGADO!");
     }
-    
+*/    
      
     if ((millis() >= 1400000)&&(millis() <=  145000)){ setTime(23, 15, 0, 18, 11, 2023); }
 
