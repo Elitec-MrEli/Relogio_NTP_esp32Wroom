@@ -20,20 +20,27 @@ int _mes=11;
 int _ano=2023;
 */
 void setup() {
+
   Serial.begin(115200);
 
+  Serial.println("\n wifi esta: "+ String(WiFi.status())+"\n");
 
   WiFi.begin(ssid, password);
   Serial.print("Conectando no WiFi..");
   while (WiFi.status() != WL_CONNECTED) {
     delay(100);
     Serial.print(".");
+    
   }
-  Serial.println("\nConectado!\n");
+  
+  Serial.println("\n wifi esta: "+ String(WiFi.status())+"\n");
+  delay(3000);
 
       WiFi.disconnect(true);
       WiFi.mode(WIFI_OFF);
       Serial.println("WIFI DESLIGADO!");
+      Serial.println("\n wifi esta: "+ String(WiFi.status())+"\n");
+
 
   
   setTime(23, 15, 0, 18, 11, 2023); // hora, mim, seg, dia, mes, ano
@@ -60,15 +67,16 @@ void loop() {
     }
 */    
      
-    if ((millis() >= 1400000)&&(millis() <=  145000)){ setTime(23, 15, 0, 18, 11, 2023); }
+    if ((millis() >= 1200000)&&(millis() <=  125000)){ setTime(23, 15, 0, 18, 11, 2023); }
 
-    if ((millis() >= 160000)&&(millis() <= 164000)){
+    if ((millis() >= 130000)&&(millis() <= 135000)){
       WiFi.begin(ssid, password);
       Serial.print("Conectando no WiFi..");
       while (WiFi.status() != WL_CONNECTED) {
         delay(100);
         Serial.print(".");
       }
+      Serial.println("\n wifi esta: "+ String(WiFi.status())+"\n");
       Serial.println("\n WIFI Conectado!\n");
     }
 
@@ -194,3 +202,4 @@ void verifica_sincronia_ESP_x_NTP(int ano_, int mes_ , int dia_, int hour_, int 
         month(t);         // The month for the given time t
         year(t);          // The year for the given time t
         */
+
